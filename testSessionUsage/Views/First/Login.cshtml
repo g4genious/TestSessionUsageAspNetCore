@@ -8,11 +8,17 @@
 
 <h4>@ViewBag.Message</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
+
+<div>
+    <div class="col-md-3">
+        @Html.Partial("~/Views/First/TestView.cshtml")
+       
+      
+    </div>
+    <div class="col-md-9">
         <form asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+
             <div class="form-group">
                 <label asp-for="Username" class="control-label"></label>
                 <input asp-for="Username" class="form-control" />
@@ -29,6 +35,8 @@
         </form>
     </div>
 </div>
+
+
 
 <div>
     <a asp-action="Index">Back to List</a>

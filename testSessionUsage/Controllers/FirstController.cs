@@ -27,6 +27,10 @@ namespace testSessionUsage.Controllers
         [HttpGet]
         public IActionResult CreateStudent()
         {
+            if (TempData["a"] != null)
+            {
+                string a = TempData["a"].ToString();
+            }
             UserDetail U = null;
             try
             {
@@ -50,6 +54,18 @@ namespace testSessionUsage.Controllers
         [HttpPost]
         public IActionResult CreateStudent(Student S)
         {
+
+            ModelState.AddModelError("", "Some Errors occured");
+            return View();
+
+
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Some Errors occured");
+                return View();
+            }
+
+
             ORM.Student.Add(S);
             ORM.SaveChanges();
             return View();
@@ -93,7 +109,7 @@ namespace testSessionUsage.Controllers
             // HttpContext.Session.("LoggedInUser", SerializedFoundUserInDB);
 
             HttpContext.Session.SetString("LoggedInUser", SerializedFoundUserInDB);
-   
+            TempData["a"] = "Some test data";
 
             return RedirectToAction(nameof(FirstController.CreateStudent));
         }
