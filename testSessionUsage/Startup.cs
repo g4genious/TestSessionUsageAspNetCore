@@ -29,6 +29,10 @@ namespace testSessionUsage
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddDbContext<OurFirstDatabaseContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("MyCS")));
+
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -37,6 +41,9 @@ namespace testSessionUsage
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(abc => abc.IdleTimeout = TimeSpan.FromMinutes(20) );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,11 +64,13 @@ namespace testSessionUsage
 
             app.UseAuthentication();
 
+            app.UseSession();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=First}/{action=Login}/{id?}");
             });
         }
     }
